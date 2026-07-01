@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>猜数字游戏</title>
+    <style>
+        body{
+            font-family:Arial,sans-serif;
+            background:#222;
+            color:#fff;
+            text-align:center;
+            margin-top:80px;
+        }
+        .box{
+            background:#333;
+            padding:30px;
+            border-radius:12px;
+            display:inline-block;
+        }
+        input{
+            padding:8px;
+            font-size:16px;
+            width:180px;
+        }
+        button{
+            padding:8px 16px;
+            font-size:16px;
+            background:#4285f4;
+            color:white;
+            border:none;
+            border-radius:4px;
+            cursor:pointer;
+            margin-left:8px;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>猜数字游戏（1‑100）</h2>
+    <p id="tip">请输入1‑100之间的整数</p>
+    <p>剩余次数：<span id="left">10</span></p>
+    <input type="number" id="numInput" placeholder="输入数字">
+    <button onclick="check()">提交猜测</button>
+    <button onclick="resetGame()">重新开始</button>
+</div>
+
+<script>
+let answer, leftCount;
+
+// 初始化游戏
+function init(){
+    answer = Math.floor(Math.random()*100)+1;
+    leftCount = 10;
+    document.getElementById("left").innerText=leftCount;
+    document.getElementById("tip").innerText="请输入1‑100之间的整数";
+    document.getElementById("numInput").value="";
+}
+init();
+
+function check(){
+    const val = parseInt(document.getElementById("numInput").value);
+    if(isNaN(val)||val<1||val>100){
+        document.getElementById("tip").innerText="输入无效，请输入1‑100的数字";
+        return;
+    }
+    leftCount--;
+    document.getElementById("left").innerText=leftCount;
+
+    if(val>answer){
+        document.getElementById("tip").innerText="太大了！";
+    }else if(val<answer){
+        document.getElementById("tip").innerText="太小了！";
+    }else{
+        document.getElementById("tip").innerText="恭喜，猜对了！";
+        leftCount=0;
+    }
+
+    if(leftCount<=0&&val!==answer){
+        document.getElementById("tip").innerText="游戏结束，答案是："+answer;
+    }
+}
+
+function resetGame(){
+    init();
+}
+</script>
+</body>
+</html>
